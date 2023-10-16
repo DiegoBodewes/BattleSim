@@ -9,22 +9,26 @@ public class AI_Behaviour : MonoBehaviour
     [Range(0, 360)]
     public float angle;
 
-    public GameObject playerRef;
+    public GameObject enemyRef;
 
     public LayerMask targetMask;
     public LayerMask obstructionMask;
 
-    public bool canSeePlayer;
+    public bool canSeeEnemy;
     public bool inRadius;
 
     public NavMeshAgent enemy;
 
+    //attack
+    public GameObject firePoint;
+    public GameObject projectile;
 
-
+    public float fireRate = 5;
+    private float nextTimeToFire = 0;
 
     private void Start()
     {
-        playerRef = GameObject.FindGameObjectWithTag("Player");
+        enemyRef = GameObject.FindGameObjectWithTag("Enemy");
         StartCoroutine(FOVRoutine());
     }
 
@@ -55,37 +59,42 @@ public class AI_Behaviour : MonoBehaviour
                 float distanceToTarget = Vector3.Distance(transform.position, target.position);
 
                 if (!Physics.Raycast(transform.position, directionToTarget, distanceToTarget, obstructionMask))
-                    canSeePlayer = true;
+                    canSeeEnemy = true;
                 else
-                    canSeePlayer = false;
+                    canSeeEnemy = false;
 
             }
             else
-                canSeePlayer = false;
+                canSeeEnemy = false;
         }
-        else if (canSeePlayer)
-            canSeePlayer = false;
+        else if (canSeeEnemy)
+            canSeeEnemy = false;
 
-        if (canSeePlayer)
+        if (canSeeEnemy)
         {
-            enemy.SetDestination(playerRef.transform.position);
-            angle = 360;
-        }
-        else
-        {
-            angle = 90;
+            enemy.SetDestination(enemyRef.transform.position);
+            Projectile();
         }
     }
 
     // Update is called once per frame
     void Update()
     {
-        //enemies herkennen
-
-        //loopt richting enemy
-
         //ability
 
         //health = 0 destroy
     }
+
+    void Projectile()
+    {
+        if (canSeeEnemy && Time.time >= nextTimeToFire)
+        {
+            nextTimeToFire = Time.time + 1f / fireRate;
+            Instantiate(projectile, firePoint.transform.position, firePoint.transform.rotation, firePoint.transform);
+        }
+
+        Rigidbody projectileRig = projectile.GetComponent<Rigidbody>();
+        projectileRig.AddForce(projectileRig.transform.forward);
+    }
+
 }
