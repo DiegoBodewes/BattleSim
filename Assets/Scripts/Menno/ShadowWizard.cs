@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class AI_Behaviour : MonoBehaviour
+public class ShadowWizard : MonoBehaviour
 {
     public float radius;
     [Range(0, 360)]
@@ -17,7 +17,9 @@ public class AI_Behaviour : MonoBehaviour
     public bool canSeeEnemy;
     public bool inRadius;
 
-    public NavMeshAgent enemy;
+    public NavMeshAgent shadowWizard;
+
+    public float distance = 0f;
 
     //attack
     public GameObject firePoint;
@@ -72,7 +74,9 @@ public class AI_Behaviour : MonoBehaviour
 
         if (canSeeEnemy)
         {
-            enemy.SetDestination(enemyRef.transform.position);
+            //shadowWizard.SetDestination(enemyRef.transform.position);
+
+            //use abbility
             Projectile();
         }
     }
@@ -93,8 +97,8 @@ public class AI_Behaviour : MonoBehaviour
             Instantiate(projectile, firePoint.transform.position, firePoint.transform.rotation, firePoint.transform);
         }
 
-        Rigidbody projectileRig = projectile.GetComponent<Rigidbody>();
-        projectileRig.AddForce(projectileRig.transform.forward);
+          //projectileRig = projectile.GetComponent<Rigidbody>();
+        //projectileRig.AddForce(projectileRig.transform.forward);
     }
 
 }
