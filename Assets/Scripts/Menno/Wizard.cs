@@ -12,73 +12,40 @@ public class Wizard : MonoBehaviour
     public LayerMask whatIsGround;
     public LayerMask WhatIsEnemy;
 
+    [Header("Options")]
     public float health = 50;
-
-    //Patroling
-    public Vector3 walkPoint;
-    bool walkPointSet;
-    public float walkPointRange;
-
-    //Attacking
     public float timeBetweenAttack;
-    bool alreadyAttacked;
-    public GameObject projectile;
-
-    //States
     public float sightRange;
     public float attackRange;
+
+    //Attacking
+    [Header("Attacking")]
+    bool alreadyAttacked;
+    public GameObject Abbility1;
+    public Transform firePoint;
+
+    //States
+    [Header("States")]
     public bool EnemyInSightRange;
     public bool EnemyInAttackRange;
 
     // Start is called before the first frame update
     void Start()
     {
-        enemy = GameObject.Find("Enemy").transform;
         agent = GetComponent<NavMeshAgent>();
     }
 
     private void Update()
     {
+        enemy = GameObject.FindWithTag("Enemy").transform;
+
         //Check for sight and attack range
         EnemyInSightRange = Physics.CheckSphere(transform.position, sightRange, WhatIsEnemy);
         EnemyInAttackRange = Physics.CheckSphere(transform.position, attackRange, WhatIsEnemy);
 
-        //if (!EnemyInSightRange && !EnemyInAttackRange) Patrolling();
         if (EnemyInSightRange && !EnemyInAttackRange) Chase();
         if (EnemyInSightRange && EnemyInAttackRange) Attack();
     }
-
-    /*private void Patrolling()
-    {
-        if (!walkPointSet) SearchWalkPoint();
-
-        if (walkPointSet)
-        {
-            agent.SetDestination(walkPoint);
-        }
-
-        Vector3 distanceToWalkPoint = transform.position - walkPoint;
-
-        //Walkpoint reached
-        if (distanceToWalkPoint.magnitude < 1f)
-        {
-            walkPointSet = false;
-        }
-    }
-
-    private void SearchWalkPoint()
-    {
-        //Calculate random point in range
-        float randomZ = Random.Range(-walkPointRange, walkPointRange);
-        float randomX = Random.Range(-walkPointRange, walkPointRange);
-
-        walkPoint = new Vector3(transform.position.x + randomX, transform.position.y, transform.position.z + randomZ);
-
-        if (Physics.Raycast(walkPoint, -transform.up, 2f, whatIsGround))
-        {
-            walkPointSet = true;
-        }
-    }*/
 
     private void Chase()
     {
@@ -95,8 +62,10 @@ public class Wizard : MonoBehaviour
         if (!alreadyAttacked)
         {
             //Ability
-            Rigidbody rb = Instantiate(projectile, transform.position, Quaternion.identity).GetComponent<Rigidbody>();
-            rb.AddForce(transform.forward * 32f, ForceMode.Impulse);
+            Rigidbody rb = Instantiate(Abbility1, firePoint.transform.position, Quaternion.identity).GetComponent<Rigidbody>();
+
+            Vector3 dir = enemy.transform.position - this.transform.position;
+            rb.AddForce(dir.normalized * 32f, ForceMode.Impulse);
 
             //
 
@@ -110,7 +79,7 @@ public class Wizard : MonoBehaviour
         alreadyAttacked = false;
     }
 
-    public void TakeDamge(int damage)
+    public void TakeDamage(int damage)
     {
         health -= damage;
 
