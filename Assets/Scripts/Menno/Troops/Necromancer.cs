@@ -143,7 +143,7 @@ public class Necromancer : MonoBehaviour
     {
         {
             //instantiate an projectile
-            GameObject projectile = (GameObject)Instantiate(SlashPrefab, firePoint.position, Quaternion.identity);
+            GameObject projectile = (GameObject)Instantiate(SlashPrefab, firePoint.position, firePoint.transform.rotation);
         }
     }
 

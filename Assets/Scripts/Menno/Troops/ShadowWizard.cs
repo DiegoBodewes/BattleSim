@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Summon : MonoBehaviour
+public class ShadowWizard : MonoBehaviour
 {
     public bool isTeam1 = true;
 
@@ -25,7 +25,7 @@ public class Summon : MonoBehaviour
     [Header("Abilities")]
     bool alreadyAttacked;
 
-    public GameObject SlashPrefab;
+    public GameObject ProjectilePrefab;
 
     public Transform firePoint;
 
@@ -51,7 +51,7 @@ public class Summon : MonoBehaviour
 
     private void Update()
     {
-        if (isTeam1 == true)
+        if(isTeam1 == true)
         {
             enemy = GameObject.FindWithTag("Team2").transform;
         }
@@ -83,7 +83,7 @@ public class Summon : MonoBehaviour
         if (!alreadyAttacked)
         {
             //Ability
-            Slash();
+            Projectile();
 
             //
 
@@ -97,14 +97,6 @@ public class Summon : MonoBehaviour
         alreadyAttacked = false;
     }
 
-    void Slash()
-    {
-        {
-            //instantiate an projectile
-            GameObject projectile = (GameObject)Instantiate(SlashPrefab, firePoint.position, Quaternion.identity);
-        }
-    }
-
     public void TakeDamage(int damage)
     {
         health -= damage;
@@ -112,6 +104,20 @@ public class Summon : MonoBehaviour
         if (health < 0)
         {
             Destroy(gameObject);
+        }
+    }
+
+    void Projectile()
+    {
+        {
+                //instantiate an projectile
+                GameObject projectile = (GameObject)Instantiate(ProjectilePrefab, firePoint.position, Quaternion.identity);
+
+                //compute the projectile direction towards the enemy
+                Vector3 direction = enemy.transform.position - projectile.transform.position;
+
+                //Set the projectile direction
+                projectile.GetComponent<Projectile>().SetDirection(direction);
         }
     }
 

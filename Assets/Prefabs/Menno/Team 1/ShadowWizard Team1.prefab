@@ -45,7 +45,7 @@ GameObject:
   - component: {fileID: 8162714844154565570}
   - component: {fileID: 3094631590649875595}
   - component: {fileID: 3094631590649875593}
-  - component: {fileID: 3094631590649875592}
+  - component: {fileID: 716665785}
   m_Layer: 8
   m_Name: ShadowWizard Team1
   m_TagString: Team1
@@ -171,7 +171,7 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &3094631590649875592
+--- !u!114 &716665785
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -180,7 +180,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5561832530924104238}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f2695ddf6660ba4e85ca06f22a31316, type: 3}
+  m_Script: {fileID: 11500000, guid: 08dcf9f4244273a45bc6b4293093586d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   isTeam1: 1
@@ -191,7 +191,7 @@ MonoBehaviour:
     m_Bits: 0
   health: 50
   enemySightRange: 200
-  timeBetweenAttack: 4
+  timeBetweenAttack: 6
   attackRange: 40
   ProjectilePrefab: {fileID: 1149837438278948402, guid: 5f042d45d060c324da4f4b323070f4f5, type: 3}
   firePoint: {fileID: 3094631591431137378}
