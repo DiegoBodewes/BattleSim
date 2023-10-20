@@ -15,8 +15,8 @@ GameObject:
   - component: {fileID: -5375523769126499056}
   - component: {fileID: 1298875038}
   m_Layer: 0
-  m_Name: Projectile
-  m_TagString: Untagged
+  m_Name: Projectile_StoneCaster
+  m_TagString: Attack
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -64,7 +64,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: edf76ee9bfac64f48b75e4cf3d1df7e2, type: 2}
+  - {fileID: 2100000, guid: 63315f4214051ef489e743975a013f3b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -128,6 +128,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destroyTime: 20
-  minDamage: 15
-  MaxDamage: 18
-  speed: 100
+  minDamage: 6
+  MaxDamage: 8
+  speed: 70

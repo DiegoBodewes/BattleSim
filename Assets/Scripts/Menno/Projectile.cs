@@ -47,15 +47,42 @@ public class Projectile : MonoBehaviour
     {
         int damage = Random.Range(minDamage, MaxDamage); //projectile damage
 
+        //ShadowWizard takes damage
         ShadowWizard wizard = collision.collider.GetComponent<ShadowWizard>();
         if (wizard != null)
         {
             wizard.TakeDamage(damage);
         }
-        
-        if(collision.gameObject.tag == "Team1") Destroy(this.gameObject);
-        if (collision.gameObject.tag == "Team2") Destroy(this.gameObject);
 
+        //StoneCaster takes damage
+        StoneCaster stone = collision.collider.GetComponent<StoneCaster>();
+        if (stone != null)
+        {
+            stone.TakeDamage(damage);
+        }
+
+        //Necromancer taks damage
+        Necromancer necro = collision.collider.GetComponent<Necromancer>();
+        if (necro != null)
+        {
+            necro.TakeDamage(damage);
+        }
+
+        //Summon takes damage
+        Summon summon = collision.collider.GetComponent<Summon>();
+        if (summon != null)
+        {
+            summon.TakeDamage(damage);
+        }
+
+        if (collision.gameObject.tag == "Team1") Destroy(this.gameObject);
+        if (collision.gameObject.tag == "Team2") Destroy(this.gameObject);
+        
+    }
+
+   private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Shield") Destroy(this.gameObject);
     }
 }
 

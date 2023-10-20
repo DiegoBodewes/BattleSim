@@ -3,17 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class StoneCaster : MonoBehaviour
+public class Summon : MonoBehaviour
 {
     public bool isTeam1 = true;
 
     public NavMeshAgent agent;
 
     public Transform enemy;
-    public Transform ally;
 
     public LayerMask WhatIsEnemy;
-    public LayerMask WhatIsAlly;
 
     [Header("Options")]
     public float health = 50;
@@ -22,16 +20,12 @@ public class StoneCaster : MonoBehaviour
     public float timeBetweenAttack;
     public float attackRange;
 
-    public float shieldRange;
-    public float timeBetweenShield;
 
     //Abilities
     [Header("Abilities")]
     bool alreadyAttacked;
-    bool alreadyUsedShield;
 
-    public GameObject ProjectilePrefab;
-    public GameObject ShieldPrefab;
+    public GameObject SlashPrefab;
 
     public Transform firePoint;
 
@@ -39,7 +33,6 @@ public class StoneCaster : MonoBehaviour
     [Header("States")]
     public bool EnemyInSightRange;
     public bool EnemyInAttackRange;
-    public bool AllyInShieldRange;
 
     // Start is called before the first frame update
     void Start()
@@ -49,12 +42,10 @@ public class StoneCaster : MonoBehaviour
         if (isTeam1 == true)
         {
             WhatIsEnemy = LayerMask.GetMask("Team2");
-            WhatIsAlly = LayerMask.GetMask("Team1");
         }
         else if (isTeam1 == false)
         {
             WhatIsEnemy = LayerMask.GetMask("Team1");
-            WhatIsAlly = LayerMask.GetMask("Team2");
         }
     }
 
@@ -63,23 +54,18 @@ public class StoneCaster : MonoBehaviour
         if (isTeam1 == true)
         {
             enemy = GameObject.FindWithTag("Team2").transform;
-            ally = GameObject.FindWithTag("Team1").transform;
         }
         else if (isTeam1 == false)
         {
             enemy = GameObject.FindWithTag("Team1").transform;
-            ally = GameObject.FindWithTag("Team2").transform;
         }
 
         //Check for sight and attack range
         EnemyInSightRange = Physics.CheckSphere(transform.position, enemySightRange, WhatIsEnemy);
         EnemyInAttackRange = Physics.CheckSphere(transform.position, attackRange, WhatIsEnemy);
 
-        AllyInShieldRange = Physics.CheckSphere(transform.position, shieldRange, WhatIsAlly);
-
         if (EnemyInSightRange && !EnemyInAttackRange) Chase();
         if (EnemyInSightRange && EnemyInAttackRange) Attack();
-        if (AllyInShieldRange) Shield();
     }
 
     private void Chase()
@@ -97,15 +83,7 @@ public class StoneCaster : MonoBehaviour
         if (!alreadyAttacked)
         {
             //Ability
-
-            //instantiate an projectile
-            GameObject projectile = (GameObject)Instantiate(ProjectilePrefab, firePoint.transform.position, Quaternion.identity);
-
-            //compute the projectile direction towards the enemy
-            Vector3 direction = enemy.transform.position - projectile.transform.position;
-
-            //Set the projectile direction
-            projectile.GetComponent<Projectile>().SetDirection(direction);
+            Slash();
 
             //
 
@@ -114,31 +92,17 @@ public class StoneCaster : MonoBehaviour
         }
     }
 
-    private void Shield()
-    {
-        if (!alreadyUsedShield)
-        {
-           // if (ally.GetComponentInChildren<Shield>() == null)
-            //{
-                //Ability
-                GameObject shield = (GameObject)Instantiate(ShieldPrefab, ally.transform.position, Quaternion.identity, ally.transform);
-
-                //
-
-                alreadyUsedShield = true;
-                Invoke(nameof(ResetShield), timeBetweenShield);
-            //}
-        }
-    }
-
     private void ResetAttack()
     {
         alreadyAttacked = false;
     }
 
-    private void ResetShield()
+    void Slash()
     {
-        alreadyUsedShield = false;
+        {
+            //instantiate an projectile
+            GameObject projectile = (GameObject)Instantiate(SlashPrefab, firePoint.position, Quaternion.identity);
+        }
     }
 
     public void TakeDamage(int damage)
@@ -151,15 +115,11 @@ public class StoneCaster : MonoBehaviour
         }
     }
 
-  
-
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, attackRange);
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, enemySightRange);
-        Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(transform.position, shieldRange);
     }
 }

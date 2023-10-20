@@ -11,19 +11,22 @@ public class ShadowWizard : MonoBehaviour
 
     public Transform enemy;
 
-    public LayerMask whatIsGround;
     public LayerMask WhatIsEnemy;
 
     [Header("Options")]
     public float health = 50;
+
+    public float enemySightRange;
     public float timeBetweenAttack;
-    public float sightRange;
     public float attackRange;
 
-    //Attacking
-    [Header("Attacking")]
+
+    //Abilities
+    [Header("Abilities")]
     bool alreadyAttacked;
+
     public GameObject ProjectilePrefab;
+
     public Transform firePoint;
 
     //States
@@ -58,7 +61,7 @@ public class ShadowWizard : MonoBehaviour
         }
 
         //Check for sight and attack range
-        EnemyInSightRange = Physics.CheckSphere(transform.position, sightRange, WhatIsEnemy);
+        EnemyInSightRange = Physics.CheckSphere(transform.position, enemySightRange, WhatIsEnemy);
         EnemyInAttackRange = Physics.CheckSphere(transform.position, attackRange, WhatIsEnemy);
 
         if (EnemyInSightRange && !EnemyInAttackRange) Chase();
@@ -123,6 +126,6 @@ public class ShadowWizard : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, attackRange);
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, sightRange);
+        Gizmos.DrawWireSphere(transform.position, enemySightRange);
     }
 }
