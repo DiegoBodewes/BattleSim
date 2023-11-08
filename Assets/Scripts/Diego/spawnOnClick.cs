@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class spawnOnClick : MonoBehaviour
 {
@@ -21,6 +23,7 @@ public class spawnOnClick : MonoBehaviour
                 {
                     // Click position to spawn.
                     SpawnUnit(hit.point);
+                    Console.WriteLine(selectedUnit.name);
                 }
                 else
                 {
@@ -34,6 +37,21 @@ public class spawnOnClick : MonoBehaviour
     void SelectUnit(GameObject unitPrefab)
     {
         selectedUnit = unitPrefab;
+    }
+
+    public void SelectUnit0()
+    {
+        SelectUnit(unitPrefabs[0]);
+    }
+
+    public void SelectUnit1()
+    {
+        SelectUnit(unitPrefabs[1]);
+    }
+
+    public void SelectUnit2()
+    {
+        SelectUnit(unitPrefabs[2]);
     }
 
     void SpawnUnit(Vector3 spawnPosition)
