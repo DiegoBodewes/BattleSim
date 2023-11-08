@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class spawnOnClick : MonoBehaviour
 {
-    public GameObject[] unitPrefabs;  // An array of unit prefabs you want to spawn.
-    private GameObject selectedUnit;  // The currently selected unit.
+    public GameObject[] unitPrefabs;  // Prefab to spawn.
+    private GameObject selectedUnit;  // Selected unit.
 
     void Update()
     {
@@ -19,12 +19,12 @@ public class spawnOnClick : MonoBehaviour
                 // Check if a unit is selected
                 if (selectedUnit != null)
                 {
-                    // Spawn the selected unit at the hit point.
+                    // Click position to spawn.
                     SpawnUnit(hit.point);
                 }
                 else
                 {
-                    // Select a unit by clicking on it (e.g., select the first unit in the unitPrefabs array).
+                    // Select a unit by clicking on it (hier gaat doet ie raar).
                     SelectUnit(unitPrefabs[0]);
                 }
             }
