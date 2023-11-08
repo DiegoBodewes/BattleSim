@@ -18,13 +18,11 @@ public class PauseMenu : MonoBehaviour
     {
         PauseMenuUI.SetActive(true);
         Time.timeScale = 0f;
-        Cursor.lockState = CursorLockMode.Confined;
     }
 
     public void Play()
     {
         PauseMenuUI.SetActive(false);
         Time.timeScale = 1f;
-        Cursor.lockState = CursorLockMode.Locked;
     }
 }
