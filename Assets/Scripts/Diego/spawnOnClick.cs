@@ -15,7 +15,7 @@ public class spawnOnClick : MonoBehaviour
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
-
+            Debug.Log(ray);
             if (Physics.Raycast(ray, out hit))
             {
                 // Check if a unit is selected
